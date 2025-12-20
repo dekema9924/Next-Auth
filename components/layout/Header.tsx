@@ -1,8 +1,11 @@
 import { ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
+import { session } from '@/lib/session'
 
 
 export default function Header() {
+
+    console.log(session?.session.token)
     return (
         <>
             <header className=' shadow-xl'>
@@ -21,9 +24,16 @@ export default function Header() {
                         <Link href={'/dashboard'} className='bg-blue-600 text-white w-24 h-9 rounded-lg flex justify-center items-center'>
                             Dashboard
                         </Link>
-                        <Link className='border border-gray-200 text-gray-500 px-5 h-9 rounded-lg flex justify-center items-center' href="/auth/signin">
-                            Sign In
-                        </Link>
+                        {
+                            session?.user ?
+                                <>
+                                    <Link className='border border-gray-200 text-gray-500 px-5 h-9 rounded-lg flex justify-center items-center' href="/auth/signin">
+                                        Sign In
+                                    </Link>
+                                </>
+                                : <button className=' bg-red-400  px-5 h-9 rounded-lg flex justify-center items-center'>Sign Out</button>
+                        }
+
                     </div>
 
                 </nav>
