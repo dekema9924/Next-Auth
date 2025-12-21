@@ -32,7 +32,6 @@ function SignInPage() {
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         //handle form submit
-        console.log("data", data);
         let name = data.firstName + " " + data.lastName;
 
         if (activeTab === 'signup') {
@@ -40,7 +39,6 @@ function SignInPage() {
             //signup logic
             try {
                 const res = await Signup(data.email, data.password, name);
-                console.log(res);
                 if (res.user) {
                     reset();
                     toast.success("Signup successful");
@@ -54,12 +52,11 @@ function SignInPage() {
             //signin logic
             try {
                 const res = await Signin(data.email, data.password);
-                console.log(res);
-
 
                 if (res.user) {
-                    toast.success("Signup successful");
+                    toast.success("Signin successful");
                     router.push('/dashboard');
+                    router.refresh();
                 }
 
             } catch (error: any) {

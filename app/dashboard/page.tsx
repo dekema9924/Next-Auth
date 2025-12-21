@@ -1,18 +1,22 @@
 
-
 import Image from 'next/image'
 import imagePlaceholder from '@/public/window.svg'
 import { User } from 'lucide-react';
 import { GlobeLock } from 'lucide-react';
 import { Lock } from 'lucide-react';
-import { MoveLeft } from 'lucide-react';
-import Link from 'next/link';
+import SignOutButton from '@/components/ui/SignOutButton';
+import { requireSession } from '@/lib/requireSession';
+import { BackButton } from '@/components/ui/BackButton';
 
 
 
-export default function Dashboard() {
+export default async function Dashboard() {
+
+    const session = await requireSession()
+
+
     return (
-        <div className=' bg-white shadow-2xl border-red-800 border w-11/12 m-auto p-4 rounded-md'>
+        <div className=' bg-white shadow-2xl shadow-red-500  md:w-11/12 m-auto md:p-4 p-2 rounded-md'>
 
             <div >
                 <h1 className='text-2xl font-semibold'>Welcome to your Dashboard</h1>
@@ -30,28 +34,27 @@ export default function Dashboard() {
                     className='rounded-full w-10 bg-cover'
                 />
                 <div className='leading-5'>
-                    <span className='block'>John Doe</span>
-                    <span className='text-gray-600 font-semibold block'>Youremail@gmail.com</span>
+                    <span className='block'>{session.user.name}</span>
+                    <span className='text-gray-600 font-semibold block'>{session.user.email}</span>
                 </div>
-                <button className='md:ml-auto bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600'>SignOut</button>
-
+                <SignOutButton />
             </div>
 
             {/* auth status */}
             <div className='bg-blue-100 p-4 rounded-md border border-blue-400 w-11/12 m-auto mt-10 text-blue-600'>
                 <p className='font-semibold'>Authentication Status</p>
-                <div className='mt-10 flex flex-col md:flex-wrap w-96 justify-between gap-4'>
+                <div className='mt-10 flex flex-col md:flex-wrap md:w-96 justify-between gap-4'>
                     <p>
                         Status: <span className='text-green-800 bg-green-100 rounded-md px-2'> Authenticated</span>
                     </p>
                     <p>
-                        UserId: <span className='font-semibold'> 1234567890</span>
+                        UserId: <span className='font-semibold text-xs md:text-md '> {session.user.id}</span>
                     </p>
                     <p>
                         Provider: <span className='font-semibold'> BetterAuth</span>
                     </p>
                     <p>
-                        Email Verified: <span className='font-semibold text-green-800 bg-green-100 px-2 rounded-md'>yes</span>
+                        Email Verified: <span className='font-semibold text-green-800 bg-green-100 px-2 rounded-md'>{session.user.emailVerified ? "Yes" : "No"}</span>
                     </p>
                 </div>
             </div>
@@ -87,12 +90,9 @@ export default function Dashboard() {
                 </div>
             </div>
 
-            <div className='p-4 w-11/12 m-auto mt-10 '>
-                <Link href={'/'} className='flex items-center gap-2 text-black border w-44 border-gray-300 px-4 py-2 rounded-md hover:bg-blue-700 cursor-pointer hover:text-white transition-colors duration-400'>
-                    <MoveLeft size={16} />
-                    Back to Home
-                </Link>
-            </div>
+
+
+            <BackButton />
 
 
 

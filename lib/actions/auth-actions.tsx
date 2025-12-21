@@ -15,7 +15,10 @@ export const Signup = async (email: string, password: string, name: string) => {
 }
 
 export const Signin = async (email: string, password: string) => {
+
     const user = await auth.api.signInEmail({
+        returnHeaders: true,
+
         body: {
             email,
             password,
