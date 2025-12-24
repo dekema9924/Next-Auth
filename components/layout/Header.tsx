@@ -1,16 +1,13 @@
-import { Menu, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
-import { auth } from '@/lib/auth';
 import UserBadge from '../ui/UserBadge';
+import MenuToggle from '../ui/MenuToggle';
 
-type Session = typeof auth.$Infer.Session
-
-
-export default async function Header({ session }: { session: Session | null }) {
+export default async function Header() {
 
     return (
         <>
-            <header className=' shadow-xl '>
+            <header className=' shadow-xl relative '>
                 <nav className=' flex items-center justify-between md:px-10 px-2 py-4 '>
                     <div className='flex items-center gap-2'>
                         <span className=' w-10 h-10  rounded-md flex items-center justify-center bg-blue-600'>
@@ -26,24 +23,10 @@ export default async function Header({ session }: { session: Session | null }) {
                         <Link href={'/dashboard'} className='bg-blue-600 text-white w-24 h-9 rounded-lg flex justify-center items-center'>
                             Dashboard
                         </Link>
-
-
-
-
                         <UserBadge />
 
-
-
                     </div>
-
-                    <Menu className='md:hidden' />
-
-                    {/* //mobile menu */}
-
-
-
-
-
+                    <MenuToggle />
 
                 </nav>
             </header >

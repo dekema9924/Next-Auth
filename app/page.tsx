@@ -14,7 +14,7 @@ export default function Home() {
           <h1 className="md:text-[2.5em] md:block text-xl md:w-125 leading-10 md:leading-[1.2] font-bold flex flex-col items-center justify-center">
             Better-Auth <span className="text-blue-600">Authentication Demo</span>
           </h1>
-          <p className=" text-gray-200 my-4 w-full md:w-96 ">showcase better-auth. features and capabilities. All features on this demo are implemented with Better Auth  </p>
+          <p className=" text-gray-200 my-4 w-full md:w-96 ">showcase better-auth. features and capabilities. All features on this demo are implemented with Better Auth and Prisma ORM  </p>
 
           <div className="mt-8 flex flex-col md:flex-row items-center justify-center gap-6">
             <button className="bg-blue-600 text-white px-6 py-2 md:w-44 rounded-lg md:mr-4  cursor-pointer">Try Authentication</button>

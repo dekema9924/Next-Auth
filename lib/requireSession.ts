@@ -9,7 +9,7 @@ export async function requireSession() {
     });
 
     if (!session) {
-        redirect('/');
+        redirect('/auth/signin');
     }
 
     return session;

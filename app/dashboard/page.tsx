@@ -7,12 +7,26 @@ import { Lock } from 'lucide-react';
 import SignOutButton from '@/components/ui/SignOutButton';
 import { requireSession } from '@/lib/requireSession';
 import { BackButton } from '@/components/ui/BackButton';
+import { prisma } from '@/lib/prisma'
 
 
 
 export default async function Dashboard() {
 
+    // protect dashboard route
     const session = await requireSession()
+
+    const userWithAccounts = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        include: {
+            accounts: true,
+        },
+    });
+
+
+
+
+
 
 
     return (
@@ -27,7 +41,7 @@ export default async function Dashboard() {
             {/* //profile info */}
             <div className='flex flex-col w-11/12 m-auto md:flex-row  md:items-center gap-3 mt-6 p-4 border-t border-gray-200 bg-gray-100'>
                 <Image
-                    src={imagePlaceholder}
+                    src={session.user.image || imagePlaceholder}
                     alt="profileImage"
                     width={200}
                     height={200}
@@ -50,25 +64,43 @@ export default async function Dashboard() {
                     <p>
                         UserId: <span className='font-semibold text-xs md:text-md '> {session.user.id}</span>
                     </p>
+                    <div className="flex gap-2">
+                        <span>Providers:</span>
+                        {userWithAccounts?.accounts.map((a) => {
+                            let label = "";
+                            switch (a.providerId) {
+                                case "github": label = "GitHub"; break;
+                                case "google": label = "Google"; break;
+                                case "email":
+                                case "credential":
+                                    label = "Better Auth"; break;
+
+                            }
+                            return (
+                                <span key={a.providerId} className="bg-gray-100 px-2 py-1 rounded">
+                                    {label}
+                                </span>
+                            );
+                        })}
+                    </div>
+
+
                     <p>
-                        Provider: <span className='font-semibold'> BetterAuth</span>
-                    </p>
-                    <p>
-                        Email Verified: <span className='font-semibold text-green-800 bg-green-100 px-2 rounded-md'>{session.user.emailVerified ? "Yes" : "No"}</span>
+                        Email Verified: <span className={`font-semibold ${session.user.emailVerified ? "text-green-800" : "text-red-800"} ${session.user.emailVerified ? "bg-green-100" : "bg-red-100"} px-2 rounded-md`}>{session.user.emailVerified ? "Yes" : "No"}</span>
                     </p>
                 </div>
             </div>
 
 
             {/* cards */}
-            <div className=' flex md:flex-row flex-col justify-center items-center mt-10 p-4 w-11/12 m-auto'>
+            <div className=' flex md:flex-row flex-col justify-center items-center mt-10 p-4 w-11/12 m-auto '>
                 {
                     [
                         { title: "Secure Access", description: "Experience seamless and secure login with Better-Auth's advanced authentication methods.", image: Lock, imageBg: "bg-blue-100" },
                         { title: "Social Login", description: "Enhance your account security with multi-factor authentication options.", image: GlobeLock, imageBg: "bg-green-100" },
                         { title: "User Management", description: "Utilize biometric authentication for quick and secure access.", image: User, imageBg: "bg-purple-100" },
                     ].map((card, index) => (
-                        <div key={index} className=" bg-gray-100/50 h-66 border-gray-200 shadow-md rounded-lg p-6 m-4 inline-block  w-full ">
+                        <div key={index} className=" bg-gray-100/50 h-66 md:h-80 border-gray-200 shadow-md rounded-lg p-6 m-4 inline-block  w-full ">
                             <span className={` rounded-md ${card.imageBg} w-10 h-10 flex items-center justify-center `}>
                                 <card.image className=" text-blue-600" size={20} />
                             </span>
@@ -93,10 +125,6 @@ export default async function Dashboard() {
 
 
             <BackButton />
-
-
-
-
         </div>
     )
 }
