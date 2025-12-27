@@ -3,11 +3,14 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import ClientToaster from "@/components/ui/ClientToaster";
+import { ModalContextProvider } from "@/context/ModalContext";
+import Background from "@/components/ui/Background";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -33,9 +36,14 @@ export default async function RootLayout({
       <body
         className={` ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <ClientToaster />
-        {children}
+        <ModalContextProvider>
+          <Background />
+
+          <Header />
+          <ClientToaster />
+          {children}
+        </ModalContextProvider>
+
       </body>
     </html>
   );

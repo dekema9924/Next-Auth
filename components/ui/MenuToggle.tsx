@@ -10,17 +10,14 @@ export default function MenuToggle() {
 
 
     return (
+        // MenuToggle.tsx
         <>
             <button
-                onClick={() => { setIsMenuOpen(!isMenuOpen); console.log(isMenuOpen); }}
-                className=' md:hidden z-50 relative cursor-pointer'
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className='md:hidden z-50 relative cursor-pointer'
                 aria-label='Toggle menu'
             >
-                {isMenuOpen ? (
-                    <X className='text-white' size={28} />
-                ) : (
-                    <Menu size={28} />
-                )}
+                <Menu size={28} />
             </button>
 
             <MobileNav isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
