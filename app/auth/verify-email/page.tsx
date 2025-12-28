@@ -16,7 +16,6 @@ export default function VerifyOTPClient() {
     const email = localStorage.getItem('pending_verification_email');
 
 
-
     // Countdown timer for resend
     useEffect(() => {
         if (resendTimer > 0) {

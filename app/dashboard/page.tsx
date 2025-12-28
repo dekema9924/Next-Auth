@@ -12,9 +12,7 @@ import { getUserProfile } from '@/lib/user';
 
 
 
-
 export default async function Dashboard() {
-
     const profile = await getUserProfile()
 
     const showUpdateBtn = profile?.userWithAccounts?.accounts.map((a) => {
@@ -51,7 +49,7 @@ export default async function Dashboard() {
                     <p className='font-semibold'>Authentication Status</p>
                     <div className='mt-10 flex flex-col md:flex-wrap md:w-96 justify-between gap-4'>
                         <p>
-                            Status: <span className='text-green-800 bg-green-100 rounded-md px-2'> Authenticated</span>
+                            Status: {profile?.session.user.emailVerified ? <span className='text-green-800 bg-green-100 rounded-md px-2'>Authenticated</span> : <span className='text-red-800 bg-red-100 w-fit rounded-md px-2'>Not Authenticated</span>}
                         </p>
                         <p>
                             UserId: <span className='font-semibold text-xs md:text-md '> {profile?.session.user.id}</span>
@@ -110,7 +108,7 @@ export default async function Dashboard() {
                         <div className='bg-blue-100 p-4 rounded-md border border-blue-400  w-11/12 m-auto mt-10'>
                             <h2 className='text-2xl font-semibold'>Try these Actions</h2>
                             <div className='flex gap-4 my-6 md:flex-row flex-col'>
-                                <UpdateProfleBtn />
+                                <UpdateProfleBtn isEmailVerified={!!profile?.session.user.emailVerified} />
                                 <button className='bg-gray-600 text-white md:w-30 h-9 rounded-lg cursor-pointer font-semibold'>Save Settings</button>
                                 <button className='bg-white text-black md:w-30 h-9 border border-gray-500 rounded-lg cursor-pointer font-semibold'>Export Data</button>
                             </div>

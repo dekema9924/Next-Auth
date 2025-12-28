@@ -1,23 +1,83 @@
 'use server'
 import { getSession } from "./session";
 import { prisma } from '@/lib/prisma'
+import { revalidatePath } from 'next/cache'
+import { SendOtp } from "./actions/auth-actions";
 
+export const updateUser = async (
+    firstName?: string,
+    lastName?: string,
+    email?: string,
+    imageUrl?: string
+) => {
+    try {
+        const session = await getSession()
 
-export const updateUser = async (firstName: string, lastName: string, email: string) => {
-    const session = await getSession()
-    let name = firstName + " " + lastName
+        if (!session?.user?.id) {
+            throw new Error('Not authenticated')
+        }
 
-    if (!session) return
-
-    const updatedUser = await prisma.user.update({
-        where: { id: session.user.id },
-        data: {
+        const name = `${firstName} ${lastName}`.trim()
+        const updateData: any = {
             name,
-            email,
-            // other fields
-        },
-    });
+        }
 
-    return updatedUser
+        // Check if email is being changed
+        const emailChanged = email !== session.user.email
 
+        let updatedUser;
+
+        if (emailChanged) {
+            // 1️ Check if email is already taken
+            const existingUser = await prisma.user.findUnique({
+                where: { email },
+            });
+
+            if (existingUser && existingUser.id !== session.user.id) {
+                throw new Error("Email is already in use");
+            }
+
+            // 2Update email + reset verification
+            updatedUser = await prisma.user.update({
+                where: { id: session.user.id },
+                data: {
+                    email,
+                    emailVerified: false,
+                    ...(imageUrl && { image: imageUrl }),
+                },
+            });
+
+            // 3️ Send OTP to NEW email
+            await SendOtp(updatedUser.email);
+        } else {
+            // Only update image (or other fields)
+            updatedUser = await prisma.user.update({
+                where: { id: session.user.id },
+                data: {
+                    ...(imageUrl && { image: imageUrl }),
+                },
+            });
+        }
+
+        revalidatePath("/dashboard");
+
+        return {
+            success: true,
+            emailChanged,
+            user: {
+                id: updatedUser.id,
+                name: updateData,
+                email: updatedUser.email,
+                image: updatedUser.image,
+                emailVerified: updatedUser.emailVerified,
+            },
+        };
+
+    } catch (error: any) {
+        console.error('Update user error:', error)
+        return {
+            success: false,
+            error: error.message || 'Failed to update user'
+        }
+    }
 }
