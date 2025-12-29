@@ -21,7 +21,7 @@ export async function uploadToCloudinary(formData: FormData) {
         const dataURI = `data:${file.type};base64,${base64}`;
 
         const result = await cloudinary.uploader.upload(dataURI, {
-            folder: 'user-profiles',
+            folder: 'better-auth-demo',
             resource_type: 'auto',
         });
 

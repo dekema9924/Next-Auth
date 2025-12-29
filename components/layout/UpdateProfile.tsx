@@ -9,7 +9,6 @@ import { updateUser } from "@/lib/updateProfile";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/uploadToCloudinary";
-import { Signout } from "@/lib/actions/auth-actions";
 
 
 type Inputs = {
@@ -71,6 +70,7 @@ export default function UpdateProfile(profile: any) {
                     localStorage.setItem('pending_verification_email', data.email);
                     // await Signout()
                     toast.success('Profile updated! Please verify your new email address.')
+                    router.refresh()
                 } else {
                     toast.success('Profile Updated Successfully!')
                 }
@@ -103,7 +103,7 @@ export default function UpdateProfile(profile: any) {
         <>
             {/* Overlay */}
             <div
-                className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                className="fixed inset-0 bg-opacity-50 z-40"
                 onClick={handleCancel}
             />
 

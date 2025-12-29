@@ -5,19 +5,24 @@ import React, { useContext, createContext, useState, Dispatch, SetStateAction } 
 interface isUpdatemodalContext {
     isUpdateModalOpen: boolean
     setUpdateModal: Dispatch<SetStateAction<boolean>>
+    isChangePswrdModal: boolean,
+    setChangePswrdModal: Dispatch<SetStateAction<boolean>>
 }
 
 const modalContext = createContext<isUpdatemodalContext>({
     isUpdateModalOpen: false,
-    setUpdateModal: () => { }
+    setUpdateModal: () => { },
+    isChangePswrdModal: false,
+    setChangePswrdModal: () => { }
 });
 
 
 export const ModalContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [isUpdateModalOpen, setUpdateModal] = useState(false)
+    const [isChangePswrdModal, setChangePswrdModal] = useState(false)
 
     return (
-        <modalContext.Provider value={{ isUpdateModalOpen, setUpdateModal }}>
+        <modalContext.Provider value={{ isUpdateModalOpen, setUpdateModal, isChangePswrdModal, setChangePswrdModal }}>
             {children}
         </modalContext.Provider>
     )

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from "react-hook-form"
 import { LockOpen } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 
 
 function SignInPage() {
@@ -232,9 +233,9 @@ function SignInPage() {
                     {/* Forgot Password - Only for Sign In */}
                     {activeTab === 'signin' && (
                         <div className="text-right">
-                            <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors">
+                            <Link href="/auth/forgot-password" className="text-sm text-gray-400 hover:text-white transition-colors">
                                 Forgot password?
-                            </a>
+                            </Link>
                         </div>
                     )}
 

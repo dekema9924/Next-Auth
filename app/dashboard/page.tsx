@@ -9,6 +9,8 @@ import { BackButton } from '@/components/ui/BackButton';
 import UpdateProfleBtn from '@/components/ui/UpdateProfleBtn';
 import UpdateProfile from '@/components/layout/UpdateProfile';
 import { getUserProfile } from '@/lib/user';
+import ChangePswrd from '@/components/layout/ChangePswrd';
+import ChangePswrdBtn from '@/components/ui/ChangePswrdBtn';
 
 
 
@@ -109,8 +111,8 @@ export default async function Dashboard() {
                             <h2 className='text-2xl font-semibold'>Try these Actions</h2>
                             <div className='flex gap-4 my-6 md:flex-row flex-col'>
                                 <UpdateProfleBtn isEmailVerified={!!profile?.session.user.emailVerified} />
-                                <button className='bg-gray-600 text-white md:w-30 h-9 rounded-lg cursor-pointer font-semibold'>Save Settings</button>
-                                <button className='bg-white text-black md:w-30 h-9 border border-gray-500 rounded-lg cursor-pointer font-semibold'>Export Data</button>
+                                <ChangePswrdBtn />
+                                {/* <button className='bg-white text-black md:w-30 h-9 border border-gray-500 rounded-lg cursor-pointer font-semibold'>Export Data</button> */}
                             </div>
                         </div>
 
@@ -120,6 +122,8 @@ export default async function Dashboard() {
                 <BackButton />
             </div>
             <UpdateProfile user={profile?.session.user} />
+            <ChangePswrd />
+
         </>
 
     )

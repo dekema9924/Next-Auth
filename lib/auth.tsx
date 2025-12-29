@@ -15,7 +15,18 @@ export const auth = betterAuth({
 
     emailAndPassword: {
         enabled: true,
-        autoSignIn: false //defaults to true
+        autoSignIn: false,
+        sendResetPassword: async ({ user, url, token }, request) => {
+            void transporter.sendMail({
+                to: user.email,
+                subject: "Reset your password",
+                text: `Click the link to reset your password: ${url}`,
+            });
+        },
+        onPasswordReset: async ({ user }, request) => {
+            // your logic here
+            console.log(`Password for user ${user.email} has been reset.`);
+        },
 
     },
     socialProviders: {

@@ -80,3 +80,43 @@ export const VerifyOtp = async (email: string, otp: string) => {
     });
     return { data };
 }
+
+
+//forgot password
+export const SendresetPasswordUrl = async (email: string) => {
+    const data = await auth.api.requestPasswordReset({
+        body: {
+            email, // required
+            redirectTo: "http://localhost:3000/auth/reset-password",
+        },
+    });
+
+    return data
+
+}
+
+//reset password
+export const resetPassword = async (newPassword: string, token: string) => {
+    const data = await auth.api.resetPassword({
+        body: {
+            newPassword: newPassword, // required
+            token, // required
+        },
+    });
+
+    return data
+}
+
+
+export const changePassword = async (newPassword: string, currentPassword: string) => {
+    const data = await auth.api.changePassword({
+        body: {
+            newPassword,
+            currentPassword,
+            revokeOtherSessions: true,
+        },
+        headers: await headers(),
+    });
+
+    return data
+}

@@ -4,10 +4,10 @@ import { useModalContext } from "@/context/ModalContext"
 import { useEffect } from "react"
 
 export default function Background() {
-    const { isUpdateModalOpen } = useModalContext()
+    const { isUpdateModalOpen, isChangePswrdModal } = useModalContext()
 
     useEffect(() => {
-        if (isUpdateModalOpen) {
+        if (isUpdateModalOpen || isChangePswrdModal) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
@@ -16,7 +16,7 @@ export default function Background() {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isUpdateModalOpen]);
+    }, [isUpdateModalOpen, isChangePswrdModal]);
 
     if (!isUpdateModalOpen) return null
 

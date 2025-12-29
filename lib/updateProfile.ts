@@ -28,7 +28,7 @@ export const updateUser = async (
         let updatedUser;
 
         if (emailChanged) {
-            // 1️ Check if email is already taken
+            // Checking if email is already taken
             const existingUser = await prisma.user.findUnique({
                 where: { email },
             });
@@ -37,24 +37,25 @@ export const updateUser = async (
                 throw new Error("Email is already in use");
             }
 
-            // 2Update email + reset verification
+            // Update email + reset verification
             updatedUser = await prisma.user.update({
                 where: { id: session.user.id },
                 data: {
                     email,
+                    name,
                     emailVerified: false,
                     ...(imageUrl && { image: imageUrl }),
                 },
             });
 
-            // 3️ Send OTP to NEW email
+            //  Send OTP to NEW email
             await SendOtp(updatedUser.email);
         } else {
-            // Only update image (or other fields)
             updatedUser = await prisma.user.update({
                 where: { id: session.user.id },
                 data: {
                     ...(imageUrl && { image: imageUrl }),
+                    name
                 },
             });
         }
