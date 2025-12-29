@@ -304,15 +304,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Next.js](https://nextjs.org/) team for the amazing framework
 - [Vercel](https://vercel.com/) for hosting and deployment
 
-## 📧 Support
-
-For support, email support@example.com or open an issue on GitHub.
-
 ## 🔗 Links
 
-- [Documentation](https://your-docs-url.com)
-- [Demo](https://your-demo-url.com)
-- [Issues](https://github.com/yourusername/next-authentication/issues)
+- [Documentation](https://github.com/dekema9924/Next-Auth)
+<!-- - [Demo](https://your-demo-url.com) -->
+- [Issues](https://github.com/dekema9924/Next-Auth/issues)
 
 ---
 
