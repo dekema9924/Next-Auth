@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { auth } from "../auth"
 import { headers } from "next/headers";
+import { prisma } from '@/lib/prisma'
+import { getSession } from "../session";
 
 
 
@@ -108,6 +110,7 @@ export const resetPassword = async (newPassword: string, token: string) => {
 }
 
 
+//chnage password
 export const changePassword = async (newPassword: string, currentPassword: string) => {
     const data = await auth.api.changePassword({
         body: {
@@ -119,4 +122,23 @@ export const changePassword = async (newPassword: string, currentPassword: strin
     });
 
     return data
+}
+
+
+//delete user account
+export const DeleteUser = async () => {
+    const session = await getSession()
+
+    if (!session?.user?.id) {
+        throw new Error("Not authenticated")
+    }
+
+    const findUser = await prisma.user.delete({
+        where: { id: session.user.id },
+    })
+
+
+    return findUser
+
+
 }

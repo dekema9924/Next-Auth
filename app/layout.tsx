@@ -37,7 +37,7 @@ export default async function RootLayout({
         className={` ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ModalContextProvider>
-          <Background />
+          {/* <Background /> */}
 
           <Header />
           <ClientToaster />

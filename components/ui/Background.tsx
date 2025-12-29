@@ -18,7 +18,7 @@ export default function Background() {
         };
     }, [isUpdateModalOpen, isChangePswrdModal]);
 
-    if (!isUpdateModalOpen) return null
+    if (!isUpdateModalOpen || !isChangePswrdModal) return null
 
     return (
         <div className="fixed inset-0 bg-black/70 z-40">

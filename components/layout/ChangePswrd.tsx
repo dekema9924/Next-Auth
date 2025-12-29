@@ -19,7 +19,6 @@ export default function ChangePswrd() {
     const { isChangePswrdModal, setChangePswrdModal } = useModalContext()
 
     const handleSubmit = async () => {
-        // Your validation and submit logic
         const newErrors = {
             currentPassword: '',
             newPassword: '',

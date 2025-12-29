@@ -9,6 +9,8 @@ import { updateUser } from "@/lib/updateProfile";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { uploadToCloudinary } from "@/lib/uploadToCloudinary";
+import { DeleteUser, Signout } from "@/lib/actions/auth-actions";
+import { authClient } from "@/lib/auth-client";
 
 
 type Inputs = {
@@ -25,6 +27,8 @@ export default function UpdateProfile(profile: any) {
     const [isUploading, setIsUploading] = useState(false)
     const [uploadedImageUrl, setUploadedImageUrl] = useState<string>('')
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
+
 
     const {
         register,
@@ -97,13 +101,30 @@ export default function UpdateProfile(profile: any) {
         }
     }
 
+    const deleteUserAccount = async () => {
+        if (!confirm("Are you sure? This action cannot be undone.")) return
+
+        if (loading) return
+        setLoading(true)
+
+        try {
+            await DeleteUser()
+            toast.success("Account deleted")
+            await Signout()
+            router.push("/")
+        } catch {
+            toast.error("Failed to delete account")
+        } finally {
+            setLoading(false)
+        }
+    }
     if (!isUpdateModalOpen) return null
 
     return (
         <>
             {/* Overlay */}
             <div
-                className="fixed inset-0 bg-opacity-50 z-40"
+                className="fixed bg-gray-800 opacity-70  inset-0 bg-opacity-50 z-40"
                 onClick={handleCancel}
             />
 
@@ -260,10 +281,18 @@ export default function UpdateProfile(profile: any) {
                     {/* Buttons */}
                     <div className="flex md:flex-row flex-col-reverse gap-5 md:justify-between">
                         <button
+                            onClick={deleteUserAccount}
                             type="button"
-                            className="flex cursor-pointer gap-2 items-center bg-red-100 text-red-600 px-5 rounded-md h-9"
+                            disabled={loading}
+                            className={`flex gap-2 justify-center items-center px-5 rounded-md h-9 ${loading
+                                ? "bg-red-200 text-red-400 cursor-not-allowed"
+                                : "bg-red-100 text-red-600 cursor-pointer"}
+  `}
                         >
-                            <Trash style={{ width: 15 }} />Delete user
+
+                            <Trash style={{ width: 15 }} />
+                            {loading ? "Deleting..." : "Delete account"}
+
                         </button>
                         <div className="flex gap-3">
                             <button

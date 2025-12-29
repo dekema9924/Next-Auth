@@ -1,6 +1,6 @@
 # Next.js Authentication System with Better Auth
 
-A modern, full-featured authentication system built with Next.js 15, Better Auth, Prisma, and TypeScript. This project provides a complete authentication solution with email verification, password management, and user profile features wth better auth integration.
+A modern, full-featured authentication system built with Next.js 15, Better Auth, Prisma, and TypeScript. This project provides a complete authentication solution with email verification, password management, and user profile features.
 
 ## Features
 
